@@ -9,7 +9,6 @@ import javax.media.opengl.glu.GLUquadric;
 public class Objects{
   private GLU glu = new GLU();
   private GLUT glut = new GLUT();
-
  public Objects() {
 
  

@@ -15,6 +15,10 @@ import com.jogamp.opengl.util.texture.awt.*;
 
 import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
+import render.*;
+
+
+import parts.robotParts.*;
 
 public class M1Scene {
   private int frame;
@@ -30,7 +34,8 @@ public class M1Scene {
 
   private Light light0, light1;
   private Camera camera;
- 
+  private Mesh meshPlane, meshCylinder, meshCube; 
+  private Render plane, cylinder, cube; 
 
   public M1Scene(GL2 gl, Camera camera) {
 	float frame = 0.0f;
@@ -40,6 +45,7 @@ public class M1Scene {
 		    float[] direction = {0f,-3f,-4f};  // direction from position to origin   
 			light1.makeSpotlight(direction, 10f);
     this.camera = camera;
+	 createRenderObjects(gl);  
    
   }
   
@@ -89,14 +95,47 @@ public class M1Scene {
    frame++;
 
 	
-    drawRobot(gl);
+    //drawRobot(gl);
+	//drawRoom(gl);
+	//createRenderObjects(gl);
+	plane.renderDisplayList(gl);
   }
   private void drawRobot(GL2 gl){
 	Robot robot = new Robot(frame);
+
 	robot.drawRobot(gl);
 	
   }
-
+  private void drawRoom(GL2 gl){
+	Room room = new Room(2.0f,20.0f,20.0f);
+	gl.glPushMatrix();
+	//gl.glRotated(-45,1.0f,0.0f,0.0f);
+	room.drawRoom(gl);
+	gl.glPopMatrix();
+	
+  
+  }
+	private void createRenderObjects(GL2 gl) {
+		
+		meshPlane = ProceduralMeshFactory.createPlane();  // Create the mesh structure
+		Material mat = meshPlane.getMaterial();   // Get a reference to the current material
+										// of the mesh (i.e. diffuse, specular, etc)
+										// Then set a new diffuse colour for the mesh's material
+		mat.setDiffuse(new float[]{0.3f,0.3f,1f, 1f}); // Colour will be mostly blue.
+		plane = new Render(meshPlane);    // Create a new Render object for the mesh
+		plane.initialiseDisplayList(gl);  // We'll use a display list for the plane
+		
+		meshCylinder = ProceduralMeshFactory.createCylinder();
+		mat = meshCylinder.getMaterial();
+		mat.setDiffuse(new float[]{1f,0.3f,0.3f, 1f}); // Colour will be mostly red.
+		cylinder = new Render(meshCylinder); // We'll use the default of
+										// immediate mode rendering for the cylinder
+										
+		meshCube = ProceduralMeshFactory.createHardCube();
+		mat = meshCube.getMaterial();
+		mat.setDiffuse(new float[]{0.3f,1f,0.3f, 1f}); // Colour will be mostly green.
+		cube = new Render(meshCube);
+	}
 	
 
   

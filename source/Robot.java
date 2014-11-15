@@ -35,8 +35,10 @@ left claw	  /	 right claw
 */
 	public void drawRobot(GL2 gl){
 	//set arms params
+
+	gl.glPushMatrix();
+	animateRobot(gl);
 	
-	System.out.print("haah");
 	Arms leftArm = new Arms(90.0f,-90.0f,frame+16, false);
 	Arms rightArm = new Arms(-90.0f,90.0f,frame, true);
 
@@ -67,8 +69,38 @@ left claw	  /	 right claw
 			gl.glPopMatrix();
 		
 		gl.glPopMatrix();
+	gl.glPopMatrix();
 		
 	
+	}
+	private void animateRobot(GL2 gl){
+	
+		float move = animateFlight(frame);
+		
+		gl.glTranslated(0.0f,move/10,0.0f);
+
+		
+		gl.glRotated(frame*0.75f,0.0f,1.0f,0.0f);
+		final float scale = 0.45f;
+		gl.glTranslated(0.0f,0.0f,-8.0f);
+		gl.glScalef(scale, scale, scale);
+		gl.glRotated(-90,0.0f,1.0f,0.0f);
+		
+		move = animateFlight(frame+40);
+		gl.glRotated((move/2)*-1,1.0f,0.0f,0.0f);
+		
+	
+	}
+    private float animateFlight(int frame){
+  
+ 
+		float ani1 = (frame*0.25f)%40;
+		float ani2 = (frame*0.25f)%80;
+		if(ani2<40)
+		
+		return ani2-25;
+		else
+		return 15-ani1;
 	}
 
 	

@@ -14,8 +14,8 @@ import com.jogamp.opengl.util.gl2.GLUT;
 public class M1 extends Frame implements GLEventListener, ActionListener,
                                            ItemListener, MouseMotionListener {
 
-  public final static int WIDTH=1000;
-  public final static int HEIGHT=1000;
+  public final static int WIDTH=800;
+  public final static int HEIGHT=600;
   private static final float NEAR_CLIP=0.1f;
   private static final float FAR_CLIP=100.0f;    
   private static final boolean CONTINUOUS_ANIMATION = false;
@@ -171,8 +171,8 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
                                     // are facing away from the camera.
     gl.glShadeModel(GL2.GL_SMOOTH); // Colours computed at vertices are interpolated over the surface 
 	                                  // of a polygon.
-    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
-	//gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
+    //gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+	gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
 	                                  // Front and back facing polygons should be filled.
     gl.glEnable(GL2.GL_LIGHTING);   // Could be part of lights instead but done here as a default
 									// to indicate lighting will be used.
@@ -186,7 +186,7 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
 				                            // When turned on, it does slow rendering 
 				                            // See en.wikipedia.org/wiki/Normal_%28geometry%29#Transforming_normals
 				                            // for details of transforming normals.					
-    double radius = 15.0;           // radius of 'camera sphere', i.e. distance from 
+    double radius = 10.0;           // radius of 'camera sphere', i.e. distance from 
 	                                  // world origin
     double theta = Math.toRadians(-45); // theta rotates anticlockwise around y axis
                                     // here, 45 clockwise from x towards z axis
@@ -261,6 +261,8 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
   public void mouseMoved(MouseEvent e) {   
     lastpoint = e.getPoint(); 
   }
+  
+  
 
 
 }
