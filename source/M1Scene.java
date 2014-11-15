@@ -35,7 +35,7 @@ public class M1Scene {
   private Light light0, light1;
   private Camera camera;
   private Mesh meshPlane, meshCylinder, meshCube; 
-  private Render plane, cylinder, cube; 
+  private Render room, cylinder, cube; 
 
   public M1Scene(GL2 gl, Camera camera) {
 	float frame = 0.0f;
@@ -89,16 +89,11 @@ public class M1Scene {
     gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
-   // doLight0(gl);          // Place the default light
-   // doLight1(gl);
-   //frame count increase
-   frame++;
+	frame++;
 
-	
-    //drawRobot(gl);
-	//drawRoom(gl);
-	//createRenderObjects(gl);
-	plane.renderDisplayList(gl);
+	//gl.glRotated(90,1,0,1);
+	glut.glutWireCube(2.0f); 
+	room.renderDisplayList(gl);
   }
   private void drawRobot(GL2 gl){
 	Robot robot = new Robot(frame);
@@ -106,18 +101,34 @@ public class M1Scene {
 	robot.drawRobot(gl);
 	
   }
-  private void drawRoom(GL2 gl){
-	Room room = new Room(2.0f,20.0f,20.0f);
-	gl.glPushMatrix();
-	//gl.glRotated(-45,1.0f,0.0f,0.0f);
-	room.drawRoom(gl);
-	gl.glPopMatrix();
-	
-  
-  }
+
 	private void createRenderObjects(GL2 gl) {
+
+		drawRoo(gl);
+
+
+}
+	private void drawRoo(GL2 gl){
+		Room wall = new Room();
+		room = wall.renderWall(gl);
 		
-		meshPlane = ProceduralMeshFactory.createPlane();  // Create the mesh structure
+		
+	/*
+	int x,z;
+	
+		if(i ==0)
+		
+		else if (i = 1) 
+		else if (i = 2)
+		else if (i = 3)
+		else if (i = 4)
+		else if (i = 5)
+		*/
+		
+	//for(int i = 0; i<6; i++){
+	
+		/*
+		meshPlane = ProceduralMeshFactory.createPlane(10,10,100,100,1,1);  // Create the mesh structure
 		Material mat = meshPlane.getMaterial();   // Get a reference to the current material
 										// of the mesh (i.e. diffuse, specular, etc)
 										// Then set a new diffuse colour for the mesh's material
@@ -125,16 +136,10 @@ public class M1Scene {
 		plane = new Render(meshPlane);    // Create a new Render object for the mesh
 		plane.initialiseDisplayList(gl);  // We'll use a display list for the plane
 		
-		meshCylinder = ProceduralMeshFactory.createCylinder();
-		mat = meshCylinder.getMaterial();
-		mat.setDiffuse(new float[]{1f,0.3f,0.3f, 1f}); // Colour will be mostly red.
-		cylinder = new Render(meshCylinder); // We'll use the default of
-										// immediate mode rendering for the cylinder
-										
-		meshCube = ProceduralMeshFactory.createHardCube();
-		mat = meshCube.getMaterial();
-		mat.setDiffuse(new float[]{0.3f,1f,0.3f, 1f}); // Colour will be mostly green.
-		cube = new Render(meshCube);
+		*/
+		
+		
+		
 	}
 	
 

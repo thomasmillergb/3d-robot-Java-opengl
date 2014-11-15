@@ -3,7 +3,7 @@ import com.jogamp.opengl.util.*;
 import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.glu.GLUquadric;
-
+import render.*;
 
 public class Room{
   private GLU glu = new GLU();
@@ -11,6 +11,8 @@ public class Room{
   private float slices = 0;
   private float x = 0;
   private float y = 0;
+  private Mesh meshWall;
+  private Render wall;
  public Room(float slices, float x ,float y) {
  
 	this.slices = slices;
@@ -19,34 +21,22 @@ public class Room{
 
  
  }
- 
-     public void drawRoom(GL2 gl) {              // Draw The Room (Box)
-	 
-        gl.glBegin(GL2.GL_QUADS);                // Begin Drawing Quads
-		
-	//	for (float xs = 0.0f; xs<= x; xs+=slices){
-		//	for (float ys = 0.0f; ys<= y; ys+=slices){
-
-					gl.glNormal3f(1.0f, 0.0f, 0.0f); 
-					
-					drawFloor(gl,0,0);
-		//	}
-		//}
-		
-        gl.glEnd();                             // Done Drawing Quads
-    
+ public Room() {
+ }
+	public Render renderWall(GL2 gl) {              // Draw The Room (Box)
+		meshWall = ProceduralMeshFactory.createPlane(10,10,100,100,1,1);  // Create the mesh structure
+		Material mat = meshWall.getMaterial();   // Get a reference to the current material
+										// of the mesh (i.e. diffuse, specular, etc)
+										// Then set a new diffuse colour for the mesh's material
+		mat.setDiffuse(new float[]{0.3f,0.3f,1f, 1f}); // Colour will be mostly blue.
+		wall = new Render(meshWall);    // Create a new Render object for the mesh
+		wall.initialiseDisplayList(gl);  // We'll use a display list for the plane
+		return wall;
 	
 	}
+
 	private void drawFloor(GL2 gl,float x,float y){
-		gl.glVertex3f(-1.0f, 0.0f, -1.0f);  
-        gl.glVertex3f(-1.0f, 0.0f, 1.0f );
-        gl.glVertex3f(1.0f,  0.0f, 1.0f );
-		gl.glVertex3f(1.0f, 0.1f, -1.0f); 
-		
-		gl.glVertex3f(-1.0f, 0.0f, -1.0f); 
-        //gl.glVertex3f(1.0f,  0.0f, -1.0f);  
-		//gl.glVertex3f(1.0f,  0.0f, 1.0f );
-		//gl.glVertex3f(-1.0f, 0.0f, -1.0f); 
+
 	
 	}
 	

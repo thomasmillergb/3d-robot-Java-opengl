@@ -34,11 +34,15 @@ left claw	  /	 right claw
   
 */
 	public void drawRobot(GL2 gl){
+
 	//set arms params
 
 	gl.glPushMatrix();
 	animateRobot(gl);
 	
+
+	//set arms 
+
 	Arms leftArm = new Arms(90.0f,-90.0f,frame+16, false);
 	Arms rightArm = new Arms(-90.0f,90.0f,frame, true);
 

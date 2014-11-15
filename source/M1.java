@@ -171,8 +171,8 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
                                     // are facing away from the camera.
     gl.glShadeModel(GL2.GL_SMOOTH); // Colours computed at vertices are interpolated over the surface 
 	                                  // of a polygon.
-    //gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
-	gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
+    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+	//gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
 	                                  // Front and back facing polygons should be filled.
     gl.glEnable(GL2.GL_LIGHTING);   // Could be part of lights instead but done here as a default
 									// to indicate lighting will be used.
