@@ -101,9 +101,10 @@ public class ProceduralMeshFactory {
 
   /**
    * Default is width 1, height 1 , depth 1, with origin at centre of hard cube.
+   * Automatically creates uv coordinates.
    */
   public static Mesh createHardCube() {
-    return createMeshHardCube(1, 1, 1, false);
+    return createMeshHardCube(1, 1, 1, true);
   }
   
   /**
@@ -232,6 +233,7 @@ public class ProceduralMeshFactory {
 
   /**
    * Creates a default cylinder with 30 slices and 1 stack, with end caps.
+   * Automatically creates uv coordinates.
    */   
   public static Mesh createCylinder() {
     return createMeshCylinder(30, 1, true, true);

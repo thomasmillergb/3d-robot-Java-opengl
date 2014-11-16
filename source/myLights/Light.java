@@ -1,3 +1,4 @@
+package myLights;
 /**
  * A class for a light. Floats are used since the gl light functions use floats.
  * If we used doubles in this class, we would have to convert to floats 

@@ -5,14 +5,14 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.glu.GLUquadric;
 import parts.robotParts.*;
 import parts.basicObjects.*;
-
+import myLights.*;
 
 public class Robot{
   private GLU glu = new GLU();
   private GLUT glut = new GLUT();
   private Objects obs = new Objects();
   private int frame;
-  
+  private float[] robotPosition;
   public Robot() {
 	frame = 0;
   }
@@ -33,7 +33,7 @@ left claw	  /	 right claw
   
   
 */
-	public void drawRobot(GL2 gl){
+	public void drawRobot(GL2 gl, MyLights lights,boolean robot0){
 
 	//set arms params
 
@@ -47,8 +47,8 @@ left claw	  /	 right claw
 	Arms rightArm = new Arms(-90.0f,90.0f,frame, true);
 
 		gl.glPushMatrix();
-			Head rHead = new Head();
-			rHead.drawRobotHead(gl);
+			Head rHead = new Head(robot0);
+			rHead.drawRobotHead(gl, lights);
 			
 			
 			//draw left arm
@@ -75,6 +75,10 @@ left claw	  /	 right claw
 		gl.glPopMatrix();
 	gl.glPopMatrix();
 		
+	
+	}
+	public float[] getPosition(){
+		return robotPosition;
 	
 	}
 	private void animateRobot(GL2 gl){

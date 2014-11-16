@@ -73,9 +73,11 @@ public class Mesh implements Cloneable {
   }
 
   /**
-   * Get the normals for the vertices as a reference.
+   * Gets the vertex normals (x,y,z) data as an array of doubles. This is a copy of the data stored
+   * in the vertex data structure.
+   * The data is organised as a 1D array: Vertex 0's normal x,y,z, Vertex 1's normal x,y,z, etc.
    * 
-   * @return  a reference to the vertex normals data structure
+   * @return  an array of doubles representing the vertex normals x,y,z data
    */   
   public double[] getNormalList() {
     double[] temp = new double[vertices.length*3];
@@ -86,8 +88,23 @@ public class Mesh implements Cloneable {
     }
     return temp;
   }
-
   
+   /**
+   * Gets the vertex texture coords (u,v) data as an array of doubles. This is a copy of the data stored
+   * in the vertex data structure.
+   * The data is organised as a 1D array: Vertex 0's texture coords u,v, Vertex 1's texture coords u,v, etc.
+   * 
+   * @return  an array of doubles representing the vertex texture coords x,y,z data
+   */   
+  public double[] getTextureCoordsList() {
+    double[] temp = new double[vertices.length*2];
+    for (int v=0; v<vertices.length; v++) {
+      temp[v*2] = vertices[v].getTextureCoordU();
+      temp[v*2+1] = vertices[v].getTextureCoordV();
+    }
+    return temp;
+  }
+
   /**
    * Get a reference to a specific vertex in the Mesh.
    * Users should be aware that this allows original data to be altered.

@@ -16,7 +16,7 @@ import com.jogamp.opengl.util.texture.awt.*;
 import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import render.*;
-
+import myLights.*;
 
 import parts.robotParts.*;
 
@@ -32,36 +32,63 @@ public class M1Scene {
 
   private int canvaswidth=0, canvasheight=0;
 
-  private Light light0, light1;
+  private Light light1;
   private Camera camera;
   private Mesh meshPlane, meshCylinder, meshCube; 
-  private Render room, cylinder, cube; 
+  private Render room; 
+  private Texture WallTex;
+  public MyLights lights;
 
   public M1Scene(GL2 gl, Camera camera) {
 	float frame = 0.0f;
-    light0 = new Light(GL2.GL_LIGHT0);  // Create a default light
-	    float[] position = {0,3,4,1}; 
-		light1 = new Light(GL2.GL_LIGHT1, position);
-		    float[] direction = {0f,-3f,-4f};  // direction from position to origin   
-			light1.makeSpotlight(direction, 10f);
+
+	lights = new MyLights();
+	lights.drawLights(gl);
     this.camera = camera;
 	 createRenderObjects(gl);  
    
   }
+   private Texture loadTexture(GL2 gl, String filename) {
+    Texture tex = null;
+    // since file loading is involved, must use try...catch
+    try {
+      File f = new File(filename);
+
+      // The following line results in a texture that is flipped vertically (i.e. is upside down)
+      // due to OpenGL and Java (0,0) position being different:
+      // tex = TextureIO.newTexture(new File(filename), false);
+
+      // So, instead, use the following three lines which flip the image vertically:
+      BufferedImage img = ImageIO.read(f); // read file into BufferedImage
+      ImageUtil.flipImageVertically(img);
+	  
+	    // No mip-mapping.
+      tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
+
+      // Different filter settings can be used to give different effects when the texture
+      // is applied to a set of polygons.
+      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+   
+    }
+    catch(Exception e) {
+      System.out.println("Error loading texture " + filename); 
+    }
+    return tex;
+  } // end of loadTexture()  
+  
   
   // called from SG1.reshape() if user resizes the window
   public void setCanvasSize(int w, int h) {
     canvaswidth=w;
     canvasheight=h;
   }
-  private void doLight1(GL2 gl) {     light1.use(gl, glut, false);   } 
+ // private void doLight1(GL2 gl) {     light1.use(gl, glut, false);   } 
   public void setObjectsDisplay(boolean b) {
     objectsOn = b;
   }
 
-  public Light getLight() {
-    return light0;
-  }
+
 
 
   
@@ -78,69 +105,64 @@ public class M1Scene {
     incRotate();
   }
 
-  private void doLight0(GL2 gl) {
-    gl.glPushMatrix();
-      gl.glRotated(rotate,0,1,0);
-      light0.use(gl, glut, true);
-    gl.glPopMatrix();
-  }
+
   
   public void render(GL2 gl) {
     gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
 	frame++;
-
-	//gl.glRotated(90,1,0,1);
-	glut.glutWireCube(2.0f); 
-	room.renderDisplayList(gl);
+	lights.doLights(gl);
+	
+	drawRobot(gl);
+	drawRoom(gl);
+	
   }
   private void drawRobot(GL2 gl){
 	Robot robot = new Robot(frame);
 
-	robot.drawRobot(gl);
+	robot.drawRobot(gl,lights,true);
+	Robot robot2 = new Robot(frame-60);
+
+	robot2.drawRobot(gl,lights,false);
 	
   }
 
 	private void createRenderObjects(GL2 gl) {
-
-		drawRoo(gl);
-
+	
+		WallTex= loadTexture(gl, "textures/brick_test3.jpg");
+		Room wall = new Room(20,20,WallTex);
+		room = wall.renderWall(gl);
 
 }
-	private void drawRoo(GL2 gl){
-		Room wall = new Room();
-		room = wall.renderWall(gl);
+	private void drawRoom(GL2 gl){
 		
 		
-	/*
-	int x,z;
+		for(int i = 0; i<4; i++){
+			gl.glRotated(90,0,0,1);
+			gl.glPushMatrix();
+			gl.glTranslated(0,-10,0);
+			room.renderDisplayList(gl);
+			gl.glPopMatrix();
+		}
+		
+		for(int i = 0; i<2; i++){
+			gl.glRotated(180,1,0,0);
+			gl.glPushMatrix();
+			gl.glRotated(90,1,0,0);
+			gl.glTranslated(0,-10,0);
+			
+			room.renderDisplayList(gl);
+			gl.glPopMatrix();
+	}
 	
-		if(i ==0)
 		
-		else if (i = 1) 
-		else if (i = 2)
-		else if (i = 3)
-		else if (i = 4)
-		else if (i = 5)
-		*/
 		
-	//for(int i = 0; i<6; i++){
-	
-		/*
-		meshPlane = ProceduralMeshFactory.createPlane(10,10,100,100,1,1);  // Create the mesh structure
-		Material mat = meshPlane.getMaterial();   // Get a reference to the current material
-										// of the mesh (i.e. diffuse, specular, etc)
-										// Then set a new diffuse colour for the mesh's material
-		mat.setDiffuse(new float[]{0.3f,0.3f,1f, 1f}); // Colour will be mostly blue.
-		plane = new Render(meshPlane);    // Create a new Render object for the mesh
-		plane.initialiseDisplayList(gl);  // We'll use a display list for the plane
-		
-		*/
 		
 		
 		
 	}
+
 	
 
   

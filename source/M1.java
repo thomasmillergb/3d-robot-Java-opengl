@@ -1,3 +1,4 @@
+
 /*
 Author: Steve Maddock
 Last updated: 9 September 2011
@@ -137,7 +138,7 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
       canvas.repaint();
     }
     else if (source == checkLight0) {
-      scene.getLight().setSwitchedOn(checkLight0.getState());
+      scene.lights.getLight().setSwitchedOn(checkLight0.getState());
       canvas.repaint();
     }
   }
@@ -152,7 +153,7 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
     checkObjects.setState(true);
     scene.setObjectsDisplay(true);
     checkLight0.setState(true);
-    scene.getLight().setSwitchedOn(true);
+    scene.lights.getLight().setSwitchedOn(true);
     setContinuousAnimation(CONTINUOUS_ANIMATION);
     scene.reset();
   }

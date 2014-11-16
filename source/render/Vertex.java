@@ -260,6 +260,24 @@ public class Vertex implements Cloneable {
   public double[] getTextureCoord() {
     return texCoord;
   }
+  
+  /**
+   * Gets the u component of the vertex texture coords
+   * 
+   * @return the u component of the vertex texture coords
+   */   
+  public double getTextureCoordU() {
+    return texCoord[0];
+  }
+
+    /**
+   * Gets the v component of the vertex texture coords
+   * 
+   * @return the v component of the vertex texture coords
+   */   
+  public double getTextureCoordV() {
+    return texCoord[1];
+  }
 
   /**
    * A new vertex is created which is a copy of the contents of this vertex.

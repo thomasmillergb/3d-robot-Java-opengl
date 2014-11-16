@@ -1,3 +1,4 @@
+
 /**
  * A class for a light.
  *
