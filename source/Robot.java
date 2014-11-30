@@ -6,7 +6,7 @@ import javax.media.opengl.glu.GLUquadric;
 import parts.robotParts.*;
 import parts.basicObjects.*;
 import myLights.*;
-
+import java.lang.*;
 public class Robot{
   private GLU glu = new GLU();
   private GLUT glut = new GLUT();
@@ -40,40 +40,33 @@ left claw	  /	 right claw
 	gl.glPushMatrix();
 	animateRobot(gl);
 	
-
+      
 	//set arms 
 
-	Arms leftArm = new Arms(90.0f,-90.0f,frame+16, false);
-	Arms rightArm = new Arms(-90.0f,90.0f,frame, true);
+	Arms leftArm = new Arms(90.0f,0.0f,-90.0f,frame+16, false);
+	Arms rightArm = new Arms(-90.0f,0.0f,90.0f,frame, true);
 
+		Head rHead = new Head(robot0);
+		rHead.drawRobotHead(gl, lights);
+		
+		//draw left arm
 		gl.glPushMatrix();
-			Head rHead = new Head(robot0);
-			rHead.drawRobotHead(gl, lights);
-			
-			
-			//draw left arm
-			gl.glPushMatrix();
-				//gl.glRotated(frame,0,1,0);
-				//leftArm.changeArmAngle(frame);
-				//leftArm.changeInitArmAngle(frame);
-				gl.glTranslated(2,0,0);
-				leftArm.drawArm(gl);
-				
-				//gl.glPushMatrix();
-				
-				
-			gl.glPopMatrix();
-			
-			
+			if(frame < 270)
+				waveHand(gl, leftArm);
+			gl.glTranslated(2,0,0);
+			leftArm.drawArm(gl);
+		gl.glPopMatrix();
+		
+		
 			//draw right arm
 			gl.glPushMatrix();
-				
+			
 				gl.glTranslated(-2,0,0);
 				rightArm.drawArm(gl);
 			gl.glPopMatrix();
-		
-		gl.glPopMatrix();
+	
 	gl.glPopMatrix();
+
 		
 	
 	}
@@ -83,33 +76,92 @@ left claw	  /	 right claw
 	}
 	private void animateRobot(GL2 gl){
 	
-		float move = animateFlight(frame);
+	
 		
-		gl.glTranslated(0.0f,move/10,0.0f);
+		float move;
+		
 
-		
-		gl.glRotated(frame*0.75f,0.0f,1.0f,0.0f);
 		final float scale = 0.45f;
-		gl.glTranslated(0.0f,0.0f,-8.0f);
+		if(frame<360){
+		startMove(gl);
+		}
+		else{
+		//	if (450<frame%720 && frame%630 <721)
+			
+				//move = fancyFlight(gl,frame);
+			//else
+				move = animateNormFlight(frame);
+			gl.glTranslated(0.0f,move,0.0f);
+			gl.glRotated((frame*1.0f)+90,0.0f,1.0f,0.0f);
+			gl.glTranslated(0.0f,0.0f,-8.0f);
+	
+		}
+		
+		
+		
 		gl.glScalef(scale, scale, scale);
 		gl.glRotated(-90,0.0f,1.0f,0.0f);
 		
-		move = animateFlight(frame+40);
-		gl.glRotated((move/2)*-1,1.0f,0.0f,0.0f);
+	
 		
 	
 	}
-    private float animateFlight(int frame){
-  
- 
-		float ani1 = (frame*0.25f)%40;
-		float ani2 = (frame*0.25f)%80;
-		if(ani2<40)
-		
-		return ani2-25;
-		else
-		return 15-ani1;
+
+
+	
+	private void waveHand(GL gl, Arms arm){
+	  if(frame <90){
+		arm.changeArmAngleX(-1*frame);
+	  }
+	  else if (frame <180)
+	  {
+		float speed = 100.0f;
+		float ani1 = frame%(360*speed);
+		float angleX= 10*(float)Math.sin(ani1/2);
+		arm.changeArmAngleX(angleX-90);
+		arm.changeArmAngleY(0);
+	
+	  }
+	  else
+		arm.changeArmAngleX(frame-270);
+	
+	
 	}
+	
+	private float animateNormFlight(int frame){
+		System.out.println(frame);
+		double ani1 = Math.toRadians(frame%360);
+		System.out.println(ani1);
+	    float flight = ((float)Math.sin((frame)/9.5f));
+
+		return flight;
+	}
+	private float fancyFlight(GL2 gl, int frame){
+		double ani1 = Math.toRadians(frame+45%360);
+		float sinMove = (float)Math.sin((frame)/5.0f);
+		return 2.0f*sinMove;
+	
+	}
+	
+	private void startMove(GL2 gl){
+			if(frame<240)
+		{
+			float moves = -1*frame /30.0f;
+			gl.glTranslated(moves,0.0f,0.0f);
+		
+		}
+		else if(frame<330){
+		
+			gl.glTranslated(-8.0f,0.0f,0.0f);
+			gl.glRotated(frame-240,0.0f,1.0f,0.0f);
+		}
+		else{
+			gl.glTranslated(-8.0f,0.0f,0.0f);
+			gl.glRotated(90.0f,0.0f,1.0f,0.0f);
+		}
+	
+	}
+
 
 	
 }

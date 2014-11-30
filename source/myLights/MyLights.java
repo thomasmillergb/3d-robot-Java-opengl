@@ -57,7 +57,7 @@ public class MyLights {
 		final float[] specular= {0.0f,0.0f,10f}; 
 		
 		float[] direction = {0.0f,-0.2f,1.0f};
-		eyeLight0 = new Light(GL2.GL_LIGHT0,position,ambient,diffuse,specular, true);
+		eyeLight0 = 
 		eyeLight2 = new Light(GL2.GL_LIGHT3,position,ambient,diffuse,specular, true);
 		eyeLight0.makeSpotlight(direction, 10f);
 		eyeLight2.makeSpotlight(direction, 10f);
@@ -65,11 +65,14 @@ public class MyLights {
   }
   private void globalLight(GL2 gl){
   
-  	final float[] position = {0,0,0,1}; 
-	final float[] ambient = {0.1f,0.1f,0.1f}; 
+  	final float[] position = {0,0,0,1};
+
+	final float[] ambient = {0.75f,0.75f,0.75f}; 
 	final float[] diffuse= {0.1f,0.1f,0.1f}; 
-	final float[] specular= {0.0f,0.0f,0.0f}; 
+	final float[] specular= {0.1f,1.1f,0.1f}; 
+
 	globalLight = new Light(GL2.GL_LIGHT4,position,ambient,diffuse,specular, true);
+	
   }
 
   
@@ -83,30 +86,31 @@ public class MyLights {
   
   
   public void doEyeLight(GL2 gl) {
-      eyeLight0.use(gl, glut, true);
+      eyeLight0.use(gl, glut, false);
   }
 
   public void doEyeLight1(GL2 gl) {
 
-      eyeLight1.use(gl, glut, true);
+      eyeLight1.use(gl, glut, false);
  
   }
   
     public void doEyeLight2(GL2 gl) {
-      eyeLight2.use(gl, glut, true);
+      eyeLight2.use(gl, glut, false);
   }
 
   public void doEyeLight3(GL2 gl) {
 
-      eyeLight3.use(gl, glut, true);
+      eyeLight3.use(gl, glut, false);
  
   }
   
   
   
     public void doGlobalLight(GL2 gl) {
-
-      globalLight.use(gl, glut, true);
+	
+      globalLight.use(gl, glut, false);
+	
  
   }
   

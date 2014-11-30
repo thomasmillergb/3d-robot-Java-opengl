@@ -11,25 +11,30 @@ public class Arms{
   private GLU glu = new GLU();
   private GLUT glut = new GLUT(); 
   private robotObjects rObs = new robotObjects();
-  private float armAngle;
+  private float armAngleY,armAngleX,armAngleZ;
   private Objects obs = new Objects();
-  private float initArmAngle;
+  private float initArmAngleX,initArmAngleY;
   private int frame;
   private boolean right;
  public Arms() {
-	armAngle = 0.0f;
-	initArmAngle = 0.0f;
+	armAngleZ = 0.0f;
+	armAngleY = 0.0f;
+	armAngleX = 0.0f;
+	initArmAngleY = 0.0f;
+	initArmAngleX = 0.0f;
  }
   public Arms(float initAngle, float arm, int frames) {
-	initArmAngle = initAngle;
-	armAngle = arm;
+  
+	initArmAngleY = initAngle;
+	armAngleY = arm;
 	frame = frames;
 	
 	
  }
-  public Arms(float initAngle, float arm, int frames, boolean right) {
-	initArmAngle = initAngle;
-	armAngle = arm;
+  public Arms(float initAngle,float initAngleX, float arm, int frames, boolean right) {
+	initArmAngleY = initAngle;
+	initArmAngleX = initAngleX;
+	armAngleY = arm;
 	frame = frames;
 	this.right = right;
 	
@@ -37,15 +42,23 @@ public class Arms{
  }
   public void drawArm(GL2 gl){
 	gl.glPushMatrix();
-	gl.glRotated(getInitAngle(),0,1,0);
+	gl.glRotated(initArmAngleY,0,1,0);
+	gl.glRotated(initArmAngleX,1,0,0);
 	rObs.drawRobotJoint(gl);
 	rObs.drawRobotArm(gl, 2);
 	//far part of arm
 	gl.glPushMatrix();
     gl.glTranslated(0,0,2);
 						gl.glPushMatrix();
-						
-							gl.glRotated(getArmAngle(),0,1,0);
+							//gl.glRotated(armAngleX,1,0,0);
+							
+							gl.glPushMatrix();
+							
+							
+							gl.glRotated(armAngleY,0,1,0);
+							gl.glRotated(armAngleX,1,0,0);
+							
+							
 							rObs.drawRobotArm(gl, 3);
 							rObs.drawRobotJoint(gl);
 							gl.glTranslated(0,0,3);
@@ -68,6 +81,9 @@ public class Arms{
 							gl.glPopMatrix();
 							gl.glPopMatrix();
 						gl.glPopMatrix();
+							gl.glPopMatrix();
+					
+					
 						
 						
 				gl.glPopMatrix();
@@ -76,21 +92,21 @@ public class Arms{
 	
   }
 
-  public float getArmAngle(){
-     return armAngle;
-  
+ public void changeArmAngleZ(float angle){
+	armAngleZ =+  angle;
   
   }
-  public float getInitAngle(){
+
+  public void changeArmAngleY(float angle){
+	armAngleY =+  angle;
   
-	return initArmAngle;
   }
-  public void changeArmAngle(float angle){
-	armAngle = getArmAngle() + angle;
+  public void changeArmAngleX(float angle){
+	armAngleX =+  angle;
   
   }
   public void changeInitArmAngle(float angle){
-    initArmAngle = getInitAngle() + angle;
+    initArmAngleY = initArmAngleY + angle;
   
   }
 

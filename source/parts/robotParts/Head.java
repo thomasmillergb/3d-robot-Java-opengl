@@ -38,10 +38,16 @@ public class Head{
 			gl.glRotated(20,0.0f,1.0f,0.0f);
 			gl.glTranslated(0,0,2);
 			rObs.drawEye(gl);
+			
+			gl.glPushMatrix();
+		
 			if(robot0)
+			
 				lights.doEyeLight(gl);
 			else
 				lights.doEyeLight2(gl);
+				
+			gl.glPopMatrix();
 		gl.glPopMatrix();
 
 		gl.glPushMatrix();
@@ -49,10 +55,15 @@ public class Head{
 			gl.glRotated(-20,0.0f,1.0f,0.0f);
 			gl.glTranslated(0,0,2);
 			rObs.drawEye(gl);
+			gl.glPushMatrix();
+			
 			if(robot0)
 				lights.doEyeLight1(gl);
 			else
 				lights.doEyeLight3(gl);
+				
+			
+			gl.glPopMatrix();
 			
 		gl.glPopMatrix();
 		

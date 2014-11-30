@@ -18,6 +18,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import render.*;
 import myLights.*;
 
+
 import parts.robotParts.*;
 
 public class M1Scene {
@@ -112,10 +113,13 @@ public class M1Scene {
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
 	frame++;
-	lights.doLights(gl);
+
+	
+	
 	
 	drawRobot(gl);
 	drawRoom(gl);
+	lights.doLights(gl);
 	
   }
   private void drawRobot(GL2 gl){
@@ -124,7 +128,7 @@ public class M1Scene {
 	robot.drawRobot(gl,lights,true);
 	Robot robot2 = new Robot(frame-60);
 
-	robot2.drawRobot(gl,lights,false);
+	//robot2.drawRobot(gl,lights,false);
 	
   }
 
