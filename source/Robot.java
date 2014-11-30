@@ -86,14 +86,17 @@ left claw	  /	 right claw
 		startMove(gl);
 		}
 		else{
-		//	if (450<frame%720 && frame%630 <721)
+			if(360<frame%720 && frame%720 <720)
 			
-				//move = fancyFlight(gl,frame);
-			//else
+				move = fancyFlight(gl,frame);
+			else
 				move = animateNormFlight(frame);
 			gl.glTranslated(0.0f,move,0.0f);
 			gl.glRotated((frame*1.0f)+90,0.0f,1.0f,0.0f);
 			gl.glTranslated(0.0f,0.0f,-8.0f);
+			gl.glRotated(move*2.5f,0,0,1);
+			if(90<frame%270)
+				gl.glRotated(frame*4,1,0,0);
 	
 		}
 		
@@ -129,17 +132,20 @@ left claw	  /	 right claw
 	}
 	
 	private float animateNormFlight(int frame){
-		System.out.println(frame);
+		//System.out.println(frame);
 		double ani1 = Math.toRadians(frame%360);
-		System.out.println(ani1);
+		//System.out.println(ani1);
 	    float flight = ((float)Math.sin((frame)/9.5f));
 
 		return flight;
 	}
 	private float fancyFlight(GL2 gl, int frame){
-		double ani1 = Math.toRadians(frame+45%360);
-		float sinMove = (float)Math.sin((frame)/5.0f);
-		return 2.0f*sinMove;
+		System.out.println(frame);
+		double ani1 = Math.toRadians(frame%360);
+		System.out.println(ani1);
+	    float flight = ((float)Math.sin((frame)/19.0f));
+
+		return 3.0f*flight;
 	
 	}
 	
