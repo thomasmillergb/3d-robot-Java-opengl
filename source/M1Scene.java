@@ -126,9 +126,9 @@ public class M1Scene {
 	Robot robot = new Robot(frame);
 
 	robot.drawRobot(gl,lights,true);
-	Robot robot2 = new Robot(frame-60);
+	Robot robot2 = new Robot(frame+780);
 
-	//robot2.drawRobot(gl,lights,false);
+	robot2.drawRobot(gl,lights,false);
 	
   }
 

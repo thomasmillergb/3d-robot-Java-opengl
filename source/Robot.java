@@ -53,7 +53,10 @@ left claw	  /	 right claw
 		gl.glPushMatrix();
 			if(frame < 270)
 				waveHand(gl, leftArm);
+			else
+				armAnimation(gl, leftArm);
 			gl.glTranslated(2,0,0);
+			
 			leftArm.drawArm(gl);
 		gl.glPopMatrix();
 		
@@ -62,6 +65,8 @@ left claw	  /	 right claw
 			gl.glPushMatrix();
 			
 				gl.glTranslated(-2,0,0);
+				if(frame > 270)
+					armAnimation(gl, rightArm);
 				rightArm.drawArm(gl);
 			gl.glPopMatrix();
 	
@@ -140,9 +145,9 @@ left claw	  /	 right claw
 		return flight;
 	}
 	private float fancyFlight(GL2 gl, int frame){
-		System.out.println(frame);
+	
 		double ani1 = Math.toRadians(frame%360);
-		System.out.println(ani1);
+		
 	    float flight = ((float)Math.sin((frame)/19.0f));
 
 		return 3.0f*flight;
@@ -166,6 +171,28 @@ left claw	  /	 right claw
 			gl.glRotated(90.0f,0.0f,1.0f,0.0f);
 		}
 	
+	}
+	private void armAnimation(GL2 gl, Arms arm){
+	 if(90<frame%360){
+	 //OpenArm
+		int in =1;
+		if(arm.getRight())
+			in =-1;
+			
+		if(135>frame%360){
+			arm.changeArmAngleY(in*2*(frame+45));
+			arm.changeArmAngleX(0);
+		}
+		else if(200>frame%360){
+			arm.changeArmAngleY(0);
+			arm.changeArmAngleX(0);
+		}
+		else if(290>frame%360){
+			arm.changeArmAngleY((in*frame*-1)-165);
+			arm.changeArmAngleX(0);
+		}
+			
+	 }
 	}
 
 

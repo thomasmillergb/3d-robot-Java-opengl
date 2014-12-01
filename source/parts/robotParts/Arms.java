@@ -109,6 +109,9 @@ public class Arms{
     initArmAngleY = initArmAngleY + angle;
   
   }
+  public boolean getRight(){
+	return right;
+  }
 
  
 }
