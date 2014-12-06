@@ -38,7 +38,7 @@ left claw	  /	 right claw
 	//set arms params
 
 	gl.glPushMatrix();
-	//animateRobot(gl);
+	animateRobot(gl);
 	
       
 	//set arms 
@@ -85,79 +85,58 @@ left claw	  /	 right claw
 	
 	
 		
-		float move;
+		float move, bank;
 		
 
-		final float scale = 0.45f;
+		final float scale = 0.35f;
 		if(frame<360){
 		startMove(gl);
+		//int i;
 		}
 		else{
-			if(360<frame%720 && frame%720 <720)
-			
-				move = fancyFlight(gl,frame);
+			if(360<=frame%720 && frame%720 <=720)
+			{
+				move = fancyFlight(frame);
+				bank = fancyFlight(frame+180);
+			}
 			else
+			{
 				move = animateNormFlight(frame);
+				bank = animateNormFlight(frame+180)*2;
+			}	
 			gl.glTranslated(0.0f,move,0.0f);
 			gl.glRotated((frame*1.0f)+90,0.0f,1.0f,0.0f);
 			gl.glTranslated(0.0f,0.0f,-8.0f);
-			gl.glRotated(move*2.5f,0,0,1);
+			gl.glRotated(bank*2.5f,0,0,1);
 			if(90<frame%270)
 				gl.glRotated(frame*4,1,0,0);
 	
 		}
-		
-		
-		
+
 		gl.glScalef(scale, scale, scale);
 		gl.glRotated(-90,0.0f,1.0f,0.0f);
-		
-	
-		
+
 	
 	}
 
-
-	
-	private void waveHand(GL gl, Arms arm){
-	  if(frame <90){
-		arm.changeArmAngleX(-1*frame);
-	  }
-	  else if (frame <190)
-	  {
-		float speed = 100.0f;
-		float ani1 = frame%(360*speed);
-		float angleX= 10*(float)Math.sin(ani1/2);
-		if(angleX >0.1 && angleX >-0.1)
-			System.out.println(frame);
-		arm.changeArmAngleX(angleX-90);
-		arm.changeArmAngleY(0);
-	
-	  }
-	  else if (frame <190+90)
-		arm.changeArmAngleX(frame-280);
-		//arm.changeArmAngleY(0);
-	
-	}
-	
 	private float animateNormFlight(int frame){
 		//System.out.println(frame);
 		double ani1 = Math.toRadians(frame%360);
 		//System.out.println(ani1);
-	    float flight = ((float)Math.sin((frame)/9.5f));
-
+	    float flight = (float)Math.sin(ani1*4);
+	
 		return flight;
 	}
-	private float fancyFlight(GL2 gl, int frame){
+	private float fancyFlight(int frame){
 	
 		double ani1 = Math.toRadians(frame%360);
 		
-	    float flight = ((float)Math.sin((frame)/19.0f));
-
-		return 3.0f*flight;
+	    float flight = 3*(float)Math.sin(ani1);
+	
+		return 2.0f*flight;
 	
 	}
-	
+
 	private void startMove(GL2 gl){
 			if(frame<240)
 		{
@@ -213,6 +192,26 @@ left claw	  /	 right claw
 			}
 			}
 	 }
+	}
+	private void waveHand(GL gl, Arms arm){
+	  if(frame <90){
+		arm.changeArmAngleX(-1*frame);
+	  }
+	  else if (frame <190)
+	  {
+		float speed = 100.0f;
+		float ani1 = frame%(360*speed);
+		float angleX= 10*(float)Math.sin(ani1/2);
+		if(angleX >0.1 && angleX >-0.1)
+			System.out.println(frame);
+		arm.changeArmAngleX(angleX-90);
+		arm.changeArmAngleY(0);
+	
+	  }
+	  else if (frame <190+90)
+		arm.changeArmAngleX(frame-280);
+		//arm.changeArmAngleY(0);
+	
 	}
 
 

@@ -15,7 +15,7 @@ public class Room{
   private int x = 0;
   private int y = 0;
   private Mesh meshWall;
-  private Render wall;
+  private Render wall, floor;
   private Texture tex;
 
  public Room(int x, int y,Texture wallTex) {
@@ -37,11 +37,7 @@ public class Room{
 	
 	}
 
-	private void drawFloor(GL2 gl,float x,float y){
 
-	
-	}
-	
 	
 	
 }

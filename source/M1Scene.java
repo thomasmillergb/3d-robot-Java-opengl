@@ -36,8 +36,8 @@ public class M1Scene {
   private Light light1;
   private Camera camera;
   private Mesh meshPlane, meshCylinder, meshCube; 
-  private Render room; 
-  private Texture WallTex;
+  private Render room,floor,roof; 
+ 
   public MyLights lights;
 
   public M1Scene(GL2 gl, Camera camera) {
@@ -114,7 +114,8 @@ Exception e) {
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
 	frame++;
-//	frame = frame%380;
+	
+	
 	
 	
 	
@@ -127,50 +128,76 @@ Exception e) {
 	Robot robot = new Robot(frame);
 
 	robot.drawRobot(gl,lights,true);
-	Robot robot2 = new Robot(frame+780);
+	Robot robot2 = new Robot(frame+360-50);
 
-	//robot2.drawRobot(gl,lights,false);
+	robot2.drawRobot(gl,lights,false);
 	
   }
 
 	private void createRenderObjects(GL2 gl) {
-	
-		WallTex= loadTexture(gl, "textures/brick_test3.jpg");
-		Room wall = new Room(20,20,WallTex);
+	 
+		Texture wallTex= loadTexture(gl, "textures/brick_texture.jpg");
+		Texture floorTex = loadTexture(gl, "textures/floor.jpg");
+		Texture roofTex = loadTexture(gl, "textures/roof.jpg");
+		Room wall = new Room(20,20,wallTex);
+		Room floorr = new Room(20,20,floorTex);
+		Room roofed = new Room(20,20,roofTex);
 		room = wall.renderWall(gl);
+		floor = floorr.renderWall(gl);
+		roof = roofed.renderWall(gl);
 
 }
 	private void drawRoom(GL2 gl){
-		
+	drawFloor(gl);
+	drawWall(gl);
+	drawRoof(gl);
+	}
+
+	private void drawWall(GL2 gl){
+		gl.glPushMatrix();
+			gl.glRotated(90,0,0,1);
 		
 		for(int i = 0; i<4; i++){
-			gl.glRotated(90,0,0,1);
-			gl.glPushMatrix();
-			gl.glTranslated(0,-10,0);
-			room.renderDisplayList(gl);
-			gl.glPopMatrix();
+			
+					
+					gl.glRotated(90,1,0,0);
+					gl.glPushMatrix();
+						gl.glTranslated(0,-10,0);
+						gl.glRotated(90,0,1,0);
+						room.renderDisplayList(gl);
+					gl.glPopMatrix();
+			
+			
 		}
+		gl.glPopMatrix();
 		
-		for(int i = 0; i<2; i++){
-			gl.glRotated(180,1,0,0);
+	}
+	private void drawFloor(GL2 gl)
+	{
+		gl.glPushMatrix();
+			
 			gl.glPushMatrix();
-			gl.glRotated(90,1,0,0);
+			//gl.glRotated(90,1,0,0);
 			gl.glTranslated(0,-10,0);
 			
-			room.renderDisplayList(gl);
+			floor.renderDisplayList(gl);
 			gl.glPopMatrix();
-	}
-	
-		
-		
-		
-		
+		gl.glPopMatrix();
 		
 	}
-
-	
-
-  
+	private void drawRoof(GL2 gl)
+	{
+		gl.glPushMatrix();
+			
+			gl.glPushMatrix();
+			//gl.glRotated(90,1,0,0);
+			gl.glTranslated(0,10,0);
+			gl.glRotated(180,1,0,0);
+			roof.renderDisplayList(gl);
+			gl.glPopMatrix();
+		gl.glPopMatrix();
+		
+	}
 
 }
 
