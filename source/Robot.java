@@ -38,7 +38,7 @@ left claw	  /	 right claw
 	//set arms params
 
 	gl.glPushMatrix();
-	animateRobot(gl);
+	//animateRobot(gl);
 	
       
 	//set arms 
@@ -51,7 +51,7 @@ left claw	  /	 right claw
 		
 		//draw left arm
 		gl.glPushMatrix();
-			if(frame < 270)
+			if(frame < 360)
 				waveHand(gl, leftArm);
 			else
 				armAnimation(gl, leftArm);
@@ -64,10 +64,12 @@ left claw	  /	 right claw
 			//draw right arm
 			gl.glPushMatrix();
 			
-				gl.glTranslated(-2,0,0);
+				
 				if(frame > 270)
 					armAnimation(gl, rightArm);
+				gl.glTranslated(-2,0,0);
 				rightArm.drawArm(gl);
+				
 			gl.glPopMatrix();
 	
 	gl.glPopMatrix();
@@ -121,18 +123,20 @@ left claw	  /	 right claw
 	  if(frame <90){
 		arm.changeArmAngleX(-1*frame);
 	  }
-	  else if (frame <180)
+	  else if (frame <190)
 	  {
 		float speed = 100.0f;
 		float ani1 = frame%(360*speed);
 		float angleX= 10*(float)Math.sin(ani1/2);
+		if(angleX >0.1 && angleX >-0.1)
+			System.out.println(frame);
 		arm.changeArmAngleX(angleX-90);
 		arm.changeArmAngleY(0);
 	
 	  }
-	  else
-		arm.changeArmAngleX(frame-270);
-	
+	  else if (frame <190+90)
+		arm.changeArmAngleX(frame-280);
+		//arm.changeArmAngleY(0);
 	
 	}
 	
@@ -175,23 +179,39 @@ left claw	  /	 right claw
 	private void armAnimation(GL2 gl, Arms arm){
 	 if(90<frame%360){
 	 //OpenArm
-		int in =1;
+		
 		if(arm.getRight())
-			in =-1;
-			
-		if(135>frame%360){
-			arm.changeArmAngleY(in*2*(frame+45));
-			arm.changeArmAngleX(0);
-		}
-		else if(200>frame%360){
-			arm.changeArmAngleY(0);
-			arm.changeArmAngleX(0);
-		}
-		else if(290>frame%360){
-			arm.changeArmAngleY((in*frame*-1)-165);
-			arm.changeArmAngleX(0);
-		}
-			
+			{
+				
+			if(135>frame%360){
+				arm.changeArmAngleY(-2*(frame+45));
+				arm.changeArmAngleX(0);
+			}
+			else if(200>frame%360){
+				arm.changeArmAngleY(0);
+				arm.changeArmAngleX(0);
+			}
+			else if(290>frame%360){
+				arm.changeArmAngleY((frame)-200);
+				arm.changeArmAngleX(0);
+			}
+			}
+		else
+			{
+				
+			if(135>frame%360){
+				arm.changeArmAngleY(2*(frame+45));
+				arm.changeArmAngleX(0);
+			}
+			else if(200>frame%360){
+				arm.changeArmAngleY(0);
+				arm.changeArmAngleX(0);
+			}
+			else if(290>frame%360){
+				arm.changeArmAngleY((frame*-1)-160);
+				arm.changeArmAngleX(0);
+			}
+			}
 	 }
 	}
 

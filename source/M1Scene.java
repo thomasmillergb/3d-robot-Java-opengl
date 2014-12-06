@@ -72,7 +72,8 @@ public class M1Scene {
       tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
    
     }
-    catch(Exception e) {
+    catch(
+Exception e) {
       System.out.println("Error loading texture " + filename); 
     }
     return tex;
@@ -113,7 +114,7 @@ public class M1Scene {
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
 	frame++;
-
+//	frame = frame%380;
 	
 	
 	
@@ -128,7 +129,7 @@ public class M1Scene {
 	robot.drawRobot(gl,lights,true);
 	Robot robot2 = new Robot(frame+780);
 
-	robot2.drawRobot(gl,lights,false);
+	//robot2.drawRobot(gl,lights,false);
 	
   }
 
