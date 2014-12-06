@@ -93,12 +93,12 @@ public class M1Scene {
 	
 	
 	room.drawRoom(gl);
-	drawRobot(gl);
+	drawRobots(gl);
 	
 	lights.doLights(gl);
 	
   }
-  private void drawRobot(GL2 gl){
+  private void drawRobots(GL2 gl){
 	Robot robot = new Robot(frame);
 
 	robot.drawRobot(gl,lights,true);

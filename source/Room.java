@@ -12,7 +12,7 @@ import com.jogamp.opengl.util.texture.awt.*;
 public class Room{
   private GLU glu = new GLU();
   private GLUT glut = new GLUT();
-  public int u = 0;
+  
  
   private Render room,floor,roof; 
 

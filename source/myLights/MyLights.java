@@ -16,22 +16,12 @@ public class MyLights {
   public void drawLights(GL2 gl){
 		eyeLight0(gl);
 		eyeLight1(gl);
+
 		globalLight(gl);
 	
 		
   }
-  /*
-  private void eyeLight0(GL2 gl){
-  	final float[] position = {0,0,0,1}; 
-	final float[] ambient = {0.1f,0.1f,0.1f}; 
-	final float[] diffuse= {0.1f,0.1f,0.1f}; 
-	final float[] specular= {0.0f,0.0f,0.0f}; 
-	globalLight = new Light(GL2.GL_LIGHT2,position,ambient,diffuse,specular, true);
-  
-  
-  
-  }
-  */
+
   private void eyeLight1(GL2 gl){
 		float[] position = {0,0,0,0}; 
 		final float[] ambient = {1.0f,1.0f,1.0f}; 
@@ -57,8 +47,8 @@ public class MyLights {
 		final float[] specular= {0.0f,0.0f,10f}; 
 		
 		float[] direction = {0.0f,-0.2f,1.0f};
-		eyeLight0 = 
-		eyeLight2 = new Light(GL2.GL_LIGHT3,position,ambient,diffuse,specular, true);
+		eyeLight0 = new Light(GL2.GL_LIGHT3,position,ambient,diffuse,specular, true);
+		eyeLight2 = new Light(GL2.GL_LIGHT4,position,ambient,diffuse,specular, true);
 		eyeLight0.makeSpotlight(direction, 10f);
 		eyeLight2.makeSpotlight(direction, 10f);
 	
@@ -71,7 +61,7 @@ public class MyLights {
 	final float[] diffuse= {0.1f,0.1f,0.1f}; 
 	final float[] specular= {0.1f,1.1f,0.1f}; 
 
-	globalLight = new Light(GL2.GL_LIGHT4,position,ambient,diffuse,specular, true);
+	globalLight = new Light(GL2.GL_LIGHT5,position,ambient,diffuse,specular, true);
 	
   }
 
