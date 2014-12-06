@@ -36,7 +36,8 @@ public class M1Scene {
   private Light light1;
   private Camera camera;
   private Mesh meshPlane, meshCylinder, meshCube; 
-  private Render room,floor,roof; 
+
+  private Room room;
  
   public MyLights lights;
 
@@ -46,39 +47,12 @@ public class M1Scene {
 	lights = new MyLights();
 	lights.drawLights(gl);
     this.camera = camera;
-	 createRenderObjects(gl);  
+	room = new Room();
+	room.createRenderObjects(gl);
+
    
   }
-   private Texture loadTexture(GL2 gl, String filename) {
-    Texture tex = null;
-    // since file loading is involved, must use try...catch
-    try {
-      File f = new File(filename);
 
-      // The following line results in a texture that is flipped vertically (i.e. is upside down)
-      // due to OpenGL and Java (0,0) position being different:
-      // tex = TextureIO.newTexture(new File(filename), false);
-
-      // So, instead, use the following three lines which flip the image vertically:
-      BufferedImage img = ImageIO.read(f); // read file into BufferedImage
-      ImageUtil.flipImageVertically(img);
-	  
-	    // No mip-mapping.
-      tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
-
-      // Different filter settings can be used to give different effects when the texture
-      // is applied to a set of polygons.
-      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-   
-    }
-    catch(
-Exception e) {
-      System.out.println("Error loading texture " + filename); 
-    }
-    return tex;
-  } // end of loadTexture()  
-  
   
   // called from SG1.reshape() if user resizes the window
   public void setCanvasSize(int w, int h) {
@@ -118,9 +92,9 @@ Exception e) {
 	
 	
 	
-	
+	room.drawRoom(gl);
 	drawRobot(gl);
-	drawRoom(gl);
+	
 	lights.doLights(gl);
 	
   }
@@ -134,70 +108,7 @@ Exception e) {
 	
   }
 
-	private void createRenderObjects(GL2 gl) {
-	 
-		Texture wallTex= loadTexture(gl, "textures/brick_texture.jpg");
-		Texture floorTex = loadTexture(gl, "textures/floor.jpg");
-		Texture roofTex = loadTexture(gl, "textures/roof.jpg");
-		Room wall = new Room(20,20,wallTex);
-		Room floorr = new Room(20,20,floorTex);
-		Room roofed = new Room(20,20,roofTex);
-		room = wall.renderWall(gl);
-		floor = floorr.renderWall(gl);
-		roof = roofed.renderWall(gl);
-
-}
-	private void drawRoom(GL2 gl){
-	drawFloor(gl);
-	drawWall(gl);
-	drawRoof(gl);
-	}
-
-	private void drawWall(GL2 gl){
-		gl.glPushMatrix();
-			gl.glRotated(90,0,0,1);
-		
-		for(int i = 0; i<4; i++){
-			
-					
-					gl.glRotated(90,1,0,0);
-					gl.glPushMatrix();
-						gl.glTranslated(0,-10,0);
-						gl.glRotated(90,0,1,0);
-						room.renderDisplayList(gl);
-					gl.glPopMatrix();
-			
-			
-		}
-		gl.glPopMatrix();
-		
-	}
-	private void drawFloor(GL2 gl)
-	{
-		gl.glPushMatrix();
-			
-			gl.glPushMatrix();
-			//gl.glRotated(90,1,0,0);
-			gl.glTranslated(0,-10,0);
-			
-			floor.renderDisplayList(gl);
-			gl.glPopMatrix();
-		gl.glPopMatrix();
-		
-	}
-	private void drawRoof(GL2 gl)
-	{
-		gl.glPushMatrix();
-			
-			gl.glPushMatrix();
-			//gl.glRotated(90,1,0,0);
-			gl.glTranslated(0,10,0);
-			gl.glRotated(180,1,0,0);
-			roof.renderDisplayList(gl);
-			gl.glPopMatrix();
-		gl.glPopMatrix();
-		
-	}
+	
 
 }
 
