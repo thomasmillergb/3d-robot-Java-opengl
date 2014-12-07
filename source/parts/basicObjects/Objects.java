@@ -47,10 +47,8 @@ public class Objects{
 		
 	public void drawCylinder(GL2 gl, float height, float radius){
 	gl.glPushMatrix();	
-		gl.glColor3f(0.3f, 0.5f, 1f);
 		GLUquadric QUAD = glu.gluNewQuadric();
 		final int SLICES = 16;
-		
 		//quad,base,top,height,slices,stacks
 		glu.gluCylinder(QUAD, radius, radius, height, SLICES, 16);
 		

@@ -13,7 +13,6 @@ public class Robot{
   private Objects obs = new Objects();
   private int frame;
   private float[] robotPosition;
-
   public Robot() {
 	frame = 0;
   }
@@ -121,9 +120,9 @@ left claw	  /	 right claw
 	}
 
 	private float animateNormFlight(int frame){
-		
+		//System.out.println(frame);
 		double ani1 = Math.toRadians(frame%360);
-	
+		//System.out.println(ani1);
 	    float flight = (float)Math.sin(ani1*4);
 	
 		return flight;
@@ -203,14 +202,15 @@ left claw	  /	 right claw
 		float speed = 100.0f;
 		float ani1 = frame%(360*speed);
 		float angleX= 10*(float)Math.sin(ani1/2);
-		
+		if(angleX >0.1 && angleX >-0.1)
+			System.out.println(frame);
 		arm.changeArmAngleX(angleX-90);
 		arm.changeArmAngleY(0);
 	
 	  }
 	  else if (frame <190+90)
 		arm.changeArmAngleX(frame-280);
-
+		//arm.changeArmAngleY(0);
 	
 	}
 
