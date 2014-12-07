@@ -6,6 +6,9 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.glu.GLUquadric;
 import parts.robotParts.*;
 import parts.basicObjects.*;
+
+
+
 public class Arms{
   
   private GLU glu = new GLU();
@@ -40,8 +43,14 @@ public class Arms{
 	
 	
  }
+
+ 
   public void drawArm(GL2 gl){
+
+	
+	
 	gl.glPushMatrix();
+	
 	gl.glRotated(initArmAngleY,0,1,0);
 	gl.glRotated(initArmAngleX,1,0,0);
 	rObs.drawRobotJoint(gl);

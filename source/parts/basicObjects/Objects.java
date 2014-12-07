@@ -5,10 +5,15 @@ import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.glu.GLUquadric;
 
+//import textures 
+import textures.*;
+import com.jogamp.opengl.util.texture.*;
+import com.jogamp.opengl.util.texture.awt.*;
 
 public class Objects{
   private GLU glu = new GLU();
   private GLUT glut = new GLUT();
+  //private Render sphere;
  public Objects() {
 
  
@@ -35,6 +40,11 @@ public class Objects{
 				
 			gl.glPopMatrix();
 	}
+
+	
+	
+	
+		
 	public void drawCylinder(GL2 gl, float height, float radius){
 	gl.glPushMatrix();	
 		gl.glColor3f(0.3f, 0.5f, 1f);

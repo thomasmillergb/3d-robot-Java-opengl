@@ -5,6 +5,12 @@ import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.glu.GLUquadric;
 import parts.basicObjects.*;
+
+//import textures 
+import textures.*;
+import com.jogamp.opengl.util.texture.*;
+import com.jogamp.opengl.util.texture.awt.*;
+
 public class robotObjects{
   
   private GLU glu = new GLU();
@@ -29,8 +35,11 @@ public class robotObjects{
 	}
 	
      public void drawRobotArm(GL2 gl, float length){
+	 Textures load = new Textures();
+     Texture robotTex= load.loadTexture(gl, "textures/brick_texture.jpg");
+	 
    gl.glPushMatrix();
-		obs.drawCylinder(gl, length,0.4f);
+		obs.drawCylinder(gl, length,0.4f, robotTex);
    gl.glPopMatrix();
    }
    public void drawRobotJoint(GL2 gl){
