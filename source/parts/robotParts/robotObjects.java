@@ -35,12 +35,13 @@ public class robotObjects{
 	}
 	
      public void drawRobotArm(GL2 gl, float length){
-	 Textures load = new Textures();
-     Texture robotTex= load.loadTexture(gl, "textures/brick_texture.jpg");
+	 //Textures load = new Textures();
+     //Texture robotTex= load.loadTexture(gl, "textures/brick_texture.jpg");
 	 
    gl.glPushMatrix();
-		obs.drawCylinder(gl, length,0.4f, robotTex);
+		obs.drawCylinder(gl, length,0.4f);
    gl.glPopMatrix();
+   
    }
    public void drawRobotJoint(GL2 gl){
    gl.glPushMatrix();
