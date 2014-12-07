@@ -36,9 +36,9 @@ public class M1Scene {
   private Light light1;
   private Camera camera;
   private Mesh meshPlane, meshCylinder, meshCube; 
-
+  public Robot robot, robot2;
   private Room room;
- 
+  public boolean robot2Enabled = true, paused = false, wireFrame = true;
   public MyLights lights;
 
   public M1Scene(GL2 gl, Camera camera) {
@@ -61,15 +61,21 @@ public class M1Scene {
   }
  // private void doLight1(GL2 gl) {     light1.use(gl, glut, false);   } 
   public void setObjectsDisplay(boolean b) {
-    objectsOn = b;
+    robot2Enabled = b;
   }
 
-
+  public void wireFrame(GL2 gl){
+  if(!wireFrame)
+	 gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
+  else
+	gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+  }
 
 
   
   public void reset() {
     rotate=0.0;
+	frame =0;
     setObjectsDisplay(true);
   }
 
@@ -87,24 +93,35 @@ public class M1Scene {
     gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
-	frame++;
+	if(!paused)
+		frame++;
 	
 	
 	
-	
+	wireFrame(gl);
 	room.drawRoom(gl);
 	drawRobots(gl);
+	boolean disco = true;
+	lights.doRoomLights(gl,frame,disco);
 	
-	lights.doLights(gl);
 	
   }
   private void drawRobots(GL2 gl){
-	Robot robot = new Robot(frame);
+	robot = new Robot(frame);
 
 	robot.drawRobot(gl,lights,true);
-	Robot robot2 = new Robot(frame+360-50);
-
-	robot2.drawRobot(gl,lights,false);
+	
+	
+	if(robot2Enabled)
+	{
+		robot2 = new Robot(frame+360-50);
+		robot2.drawRobot(gl,lights,false);
+	}
+	else
+	{
+		lights.doEyeLight2(gl);
+		lights.doEyeLight3(gl);
+	}
 	
   }
 

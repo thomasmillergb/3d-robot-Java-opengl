@@ -24,7 +24,7 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
   private Point lastpoint;            // used with mouse routines
   private int width, height;
 
-  private Checkbox checkAxes, checkObjects, checkLight0;
+  private Checkbox robotLights, globalLights, robot2Enbalbed, spotLights, wireFrame;
   private Button startAnim, pauseAnim, resetScene;
   private boolean continuousAnimation = CONTINUOUS_ANIMATION;
 
@@ -63,15 +63,14 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
 
     Panel p = new Panel(new GridLayout(2,1));
       Panel p1 = new Panel(new GridLayout(5,1));
-        checkAxes = addCheckbox(p1, "axes on", this);
-        checkObjects = addCheckbox(p1, "objects on", this);
-        checkLight0 = addCheckbox(p1, "Light 0 on", this);
+        robotLights = addCheckbox(p1, "Robot Lights", this);
+		globalLights = addCheckbox(p1, "Global Lights", this);
+        robot2Enbalbed = addCheckbox(p1, "Enable Robot 2", this);
+		spotLights = addCheckbox(p1, "SpotLights", this);
+		wireFrame = addCheckbox(p1, "WireFrame/Fill", this);
+        
       p.add(p1);
-      p1 = new Panel(new GridLayout(4,1));
-        Button rotate = new Button("Rotate light");
-        rotate.setActionCommand("Rotate");
-        rotate.addActionListener(this);
-        p1.add(rotate);
+      p1 = new Panel(new GridLayout(3,1));
         startAnim = new Button("Start animation");
         startAnim.setActionCommand("StartAnim");
         startAnim.addActionListener(this);
@@ -112,18 +111,15 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
   }
 
   public void actionPerformed(ActionEvent e) {
-    if(e.getActionCommand().equalsIgnoreCase("rotate")) {
-      scene.incRotate();
-      canvas.repaint();
-    }
-    else if(e.getActionCommand().equalsIgnoreCase("quit")) {
+
+    if(e.getActionCommand().equalsIgnoreCase("quit")) {
       System.exit(0);
     }
     else if (e.getActionCommand().equalsIgnoreCase("startanim")) {
-      setContinuousAnimation(true);
+      scene.paused = false;
     }
     else if (e.getActionCommand().equalsIgnoreCase("pauseanim")) {
-      setContinuousAnimation(false);
+      scene.paused = true;
     }
     else if (e.getActionCommand().equalsIgnoreCase("resetscene")) {
       reset();
@@ -133,14 +129,39 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
   public void itemStateChanged(ItemEvent e) {
     Object source = e.getSource();
 
-    if (source == checkObjects) {
-      scene.setObjectsDisplay(checkObjects.getState());
+    if (source == robot2Enbalbed) {
+      //scene.setObjectsDisplay(checkObjects.getState());
+
+	  scene.lights.getLight2().setSwitchedOn(robot2Enbalbed.getState());
+	  scene.lights.getLight3().setSwitchedOn(robot2Enbalbed.getState());
+	  	 
+  
+	  scene.robot2Enabled = robot2Enbalbed.getState();
+	  canvas.repaint();
+    }
+    else if (source == robotLights) {
+      scene.lights.getLight().setSwitchedOn(robotLights.getState());
+	  scene.lights.getLight1().setSwitchedOn(robotLights.getState());
+	  scene.lights.getLight2().setSwitchedOn(robotLights.getState());
+	  scene.lights.getLight3().setSwitchedOn(robotLights.getState());
       canvas.repaint();
     }
-    else if (source == checkLight0) {
-      scene.lights.getLight().setSwitchedOn(checkLight0.getState());
-      canvas.repaint();
-    }
+	else if (source == globalLights){
+	  scene.lights.getGLight().setSwitchedOn(globalLights.getState());
+	  canvas.repaint();
+	}
+	else if (source == spotLights){
+	  scene.lights.getSpotLight1().setSwitchedOn(spotLights.getState());
+	  scene.lights.getSpotLight2().setSwitchedOn(spotLights.getState());
+	  canvas.repaint();
+	
+	}
+	else if (source == wireFrame){
+	  scene.wireFrame = wireFrame.getState();
+	  canvas.repaint();
+	
+	}
+	
   }
   
   private void setContinuousAnimation(boolean b) {
@@ -148,11 +169,11 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
   }
 
   private void reset() {
-    checkAxes.setState(true);
+  //  checkAxes.setState(true);
    
-    checkObjects.setState(true);
+    //checkObjects.setState(true);
     scene.setObjectsDisplay(true);
-    checkLight0.setState(true);
+    //checkLight0.setState(true);
     scene.lights.getLight().setSwitchedOn(true);
     setContinuousAnimation(CONTINUOUS_ANIMATION);
     scene.reset();
@@ -177,7 +198,7 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
 	                                  // Front and back facing polygons should be filled.
     gl.glEnable(GL2.GL_LIGHTING);   // Could be part of lights instead but done here as a default
 									// to indicate lighting will be used.
-    gl.glEnable(GL2.GL_LIGHT0);     // Default is to enable light 0
+
     gl.glEnable(GL2.GL_NORMALIZE);  // If enabled, normal vectors specified with glNormal 
 	                                  // are scaled to unit length after transformation.
 				                            // This is only really necessary if a scale transformation
