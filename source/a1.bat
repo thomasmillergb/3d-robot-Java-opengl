@@ -1,3 +1,3 @@
 del *.class
-javac M1.java
+javac *.java
 java M1

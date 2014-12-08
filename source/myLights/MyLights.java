@@ -4,11 +4,11 @@ import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 public class MyLights {
 
-  private Light eyeLight0,eyeLight1,eyeLight2,eyeLight3,globalLight,spotLight1,spotLight2;
+  private Light eyeLight0,eyeLight1,eyeLight2,eyeLight3,globalLight,spotLight1,spotLight2,spotLight3;
   private GLU glu = new GLU();
   private GLUT glut = new GLUT();
   private double rotate=0.0;
-  
+  private float[] light;
 
   public MyLights(){
   }
@@ -24,18 +24,27 @@ public class MyLights {
   private void spotLights(GL2 gl){
 		float[] position = {0,9,0,1}; 
 		float[] position2 = {0,-9,0,1};
+		float[] position3 = {0,9,3,1}; 
 		final float[] ambient = {1.0f,1.0f,1.0f}; 
 		final float[] diffuse= {1.0f,1.0f,1.0f}; 
 		final float[] specular= {1.0f,1.0f,1.0f}; 
 		
+		final float[] ambient2 = {0.0f,1.0f,0.2f}; 
+		final float[] diffuse2= {0.0f,1.0f,0.2f}; 
+		final float[] specular2= {0.0f,1.0f,0.2f}; 
+		
+		
 		float[] direction = {0.0f,-10.0f,-7.0f};
 		float[] direction2 = {0.0f,100.0f,0.0f};
+		float[] direction3 = {5.0f,-5.0f,0.0f};
 		spotLight1 = new Light(GL2.GL_LIGHT5,position,ambient,diffuse,specular, true);
 		
 		spotLight2 = new Light(GL2.GL_LIGHT6,position2,ambient,diffuse,specular, true);
+		spotLight3 = new Light(GL2.GL_LIGHT7,position3,ambient2,diffuse2,specular2, true);
+		
 		spotLight1.makeSpotlight(direction, 20f);
 		spotLight2.makeSpotlight(direction2, 30f);
-
+		spotLight3.makeSpotlight(direction3, 25f);
   
   }
   private void eyeLight1(GL2 gl){
@@ -77,6 +86,14 @@ public class MyLights {
 	globalLight = new Light(GL2.GL_LIGHT0,position,ambient,diffuse,specular, true);
 	
   }
+  public void increaseLight(){
+  
+
+      globalLight.increase();
+  }
+  public void decreaseLight(){
+      globalLight.decrease();
+  }
 
   
   
@@ -85,20 +102,25 @@ public class MyLights {
  
 	 globalLight.use(gl, glut, false);
 	  if (disco){
+		gl.glPushMatrix();
 		gl.glRotated(frame*-2, 0.0f,1.0f,0.0f);
 		spotLight1.use(gl, glut, false);
+		gl.glPopMatrix();
 	  }
 	  else{
 		spotLight1.use(gl, glut, false);
 	  }
 	  
 	  spotLight2.use(gl, glut, false);
+	  spotLight3.use(gl, glut, false);
   }
 
   
   
   public void doEyeLight(GL2 gl) {
+	 gl.glPushMatrix();
       eyeLight0.use(gl, glut, false);
+	 gl.glPopMatrix();
   }
 
   public void doEyeLight1(GL2 gl) {
@@ -142,7 +164,11 @@ public class MyLights {
   public Light getSpotLight2() {
     return spotLight2;
   }
+ 
+	
   
+ 
+}
   
   
   
@@ -150,4 +176,4 @@ public class MyLights {
   
   
 
-}
+

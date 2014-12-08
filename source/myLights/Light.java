@@ -39,6 +39,33 @@ public class Light implements Cloneable {
   /**
    * Constructors
    */
+  public void increase(){
+  System.out.println("incrasing light");
+  ambient[0] +=1; 
+  ambient[1] +=1;
+  ambient[2] +=1;
+  diffuse[0] +=1; 
+  diffuse[1] +=1;
+  diffuse[2] +=1;
+  specular[0] +=1; 
+  specular[1] +=1;
+  specular[2] +=1;
+  
+  }  
+  public void decrease(){
+  System.out.println("decrasing light");
+  ambient[0] -=1; 
+  ambient[1] -=1;
+  ambient[2] -=1;
+  diffuse[0] -=1;
+  diffuse[1] -=1;
+  diffuse[2] -=1;
+  specular[0] -=1; 
+  specular[1] -=1;
+  specular[2] -=1;
+  
+  }
+
   public Light(int i) {
     this(i, DEFAULT_POSITION, DEFAULT_AMBIENT, WHITE_LIGHT, WHITE_LIGHT, true);
   }    
@@ -99,6 +126,7 @@ public class Light implements Cloneable {
   }
 
   public void use(GL2 gl, GLUT glut, boolean show) {
+   gl.glPushMatrix();
     if (switchedOn) {
       gl.glEnable(index); 
       // There is no glLightdv, so use glLightfv
@@ -122,9 +150,11 @@ public class Light implements Cloneable {
       }
     }
     else gl.glDisable(index);
+	 gl.glPopMatrix();
   }
   
   private void displayPosition(GL2 gl, GLUT glut) {
+   gl.glPushMatrix();
     float[] matAmbientDiffuse = {0.1f, 0.1f, 0.1f, 1.0f};
     float[] matSpecular = {0.0f, 0.0f, 0.0f, 0.0f};
     float[] matShininess = {1.0f};
@@ -139,9 +169,11 @@ public class Light implements Cloneable {
       gl.glTranslated(position[0], position[1], position[2]);
       glut.glutSolidSphere(0.1, 10,10);
     gl.glPopMatrix();
+	gl.glPopMatrix();
   }
   
   private void displayDirection(GL2 gl) {
+   gl.glPushMatrix();
     gl.glDisable(GL2.GL_LIGHTING);
     gl.glLineWidth(4);
     double x = position[0];
@@ -159,9 +191,11 @@ public class Light implements Cloneable {
     gl.glEnd();
     gl.glLineWidth(1);
     gl.glEnable(GL2.GL_LIGHTING);
+	 gl.glPopMatrix();
   }
   
   private void displaySpotlight(GL2 gl, GLUT glut) {
+  gl.glPushMatrix();
     gl.glDisable(GL2.GL_LIGHTING);
     gl.glLineWidth(4);
     double x = direction[0];
@@ -174,13 +208,14 @@ public class Light implements Cloneable {
 	  x += position[0];
   	y += position[1];
 	  z += position[2];
-    gl.glColor3d(1,1,1);
+    gl.glColor3d(10,10,10);
     gl.glBegin(GL2.GL_LINES);
       gl.glVertex3d(position[0], position[1], position[2]);
       gl.glVertex3d(x,y,z);
     gl.glEnd();
     gl.glLineWidth(1);
     gl.glEnable(GL2.GL_LIGHTING);
+	 gl.glPopMatrix();
   }
   
  

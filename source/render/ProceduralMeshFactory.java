@@ -236,7 +236,7 @@ public class ProceduralMeshFactory {
    * Automatically creates uv coordinates.
    */   
   public static Mesh createCylinder() {
-    return createMeshCylinder(30, 1, true, true);
+    return createMeshCylinder(30, 1, true, true,1.0f);
   }
   
   /**
@@ -245,19 +245,19 @@ public class ProceduralMeshFactory {
    * @param  caps    true if the cylinder is to have caps at the ends of the cylinder, 
    *                 otherwise false for no end caps
    */
-  public static Mesh createCylinder(int slices, int stacks, boolean caps) {
-    return createMeshCylinder(slices, stacks, caps, true);
+  public static Mesh createCylinder(int slices, int stacks, boolean caps, float height) {
+    return createMeshCylinder(slices, stacks, caps, true , height);
   }
   
   private static Mesh createMeshCylinder(int slices, int stacks, boolean caps, 
-                                         boolean textured) {
+                                         boolean textured, float heightz) {
     if (stacks<2)
       stacks=2;
     if (slices<3)
       slices=3;
 
     int r, z;
-    double s, c, angle, height, texu, texv;
+    double s, c, angle, texu, texv,height;
     double stepz=1.0/(stacks-1);
     double stepr=2.0*Math.PI/slices;
     int stackoffset=0, lowerstack, trioffset=0, trioffset2;
@@ -268,14 +268,14 @@ public class ProceduralMeshFactory {
 
     // Create the cylinder length facets
     for (r=0; r<slices; r++) {
-      s = Math.sin(angle=r*stepr)*0.5;
-      c = Math.cos(angle)*0.5;
+      s = Math.sin(angle=r*stepr)*0.4;
+      c = Math.cos(angle)*0.4;
       vertices[r]=new Vertex(s, c, 0, 1.0-(double)r/(slices-1), 0.0);  // need to run 1.0-0.0 in u 
 	                                                                     // because x and y axes are flipped in the coordinate system
     }
 
     for (z=1; z<stacks; z++) {
-      vertices[stackoffset=z*slices]=new Vertex(vertices[0].getPositionX(), vertices[0].getPositionY(), height=z*stepz, 1.0, texv=(double) z/(stacks-1));
+      vertices[stackoffset=z*slices]=new Vertex(vertices[0].getPositionX(), vertices[0].getPositionY(), height=z*stepz+heightz, 1.0, texv=(double) z/(stacks-1));
       lowerstack=stackoffset-slices;
       
       triangles[trioffset]=new Triangle(stackoffset, lowerstack, lowerstack+slices-1);

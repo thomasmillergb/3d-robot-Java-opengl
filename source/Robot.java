@@ -1,3 +1,8 @@
+/*
+Author: Thomas Miller
+Last updated: 7 December 2014
+*/
+
 import javax.media.opengl.*;
 import com.jogamp.opengl.util.*;
 import javax.media.opengl.glu.GLU;
@@ -7,13 +12,19 @@ import parts.robotParts.*;
 import parts.basicObjects.*;
 import myLights.*;
 import java.lang.*;
+
+//import textures 
+import textures.*;
+import com.jogamp.opengl.util.texture.*;
+import com.jogamp.opengl.util.texture.awt.*;
+
 public class Robot{
   private GLU glu = new GLU();
   private GLUT glut = new GLUT();
   private Objects obs = new Objects();
   private int frame;
   private float[] robotPosition;
-
+  private Texture robotTex;
   public Robot() {
 	frame = 0;
   }
@@ -21,6 +32,10 @@ public class Robot{
 	frame = frames;
   }
   
+  public Robot(int frames, Texture robotTex1) {
+	frame = frames;
+	robotTex = robotTex1;
+  }
   //I have tried to keep my code as clean as possible to allow me to easy manipulate parts of the robots. 
   //This allows me  to create loads of independent robots very easy.
 
@@ -40,14 +55,15 @@ left claw	  /	 right claw
 
 	gl.glPushMatrix();
 	animateRobot(gl);
-	
+	final float scale = 1.0f;
       
 	//set arms 
 
-	Arms leftArm = new Arms(90.0f,0.0f,-90.0f,frame+16, false);
-	Arms rightArm = new Arms(-90.0f,0.0f,90.0f,frame, true);
+	Arms leftArm = new Arms(90.0f,0.0f,-90.0f,frame+16, false, robotTex);
+	Arms rightArm = new Arms(-90.0f,0.0f,90.0f,frame, true, robotTex);
 
-		Head rHead = new Head(robot0);
+		Head rHead = new Head(robot0, robotTex);
+		gl.glScalef(scale, scale, scale);
 		rHead.drawRobotHead(gl, lights);
 		
 		//draw left arm
@@ -57,7 +73,7 @@ left claw	  /	 right claw
 			else
 				armAnimation(gl, leftArm);
 			gl.glTranslated(2,0,0);
-			
+			//gl.glScalef(scale, scale, scale);
 			leftArm.drawArm(gl);
 		gl.glPopMatrix();
 		

@@ -10,8 +10,8 @@ import javax.media.opengl.glu.GLU;
  
 public class Camera {
 
-  public static final double[] DEFAULT_EYE_POSITION = {10.0,12.0,8.0};
-  public static final double[] DEFAULT_LOOKAT_POSITION = {0.0,0.0,0.0};
+  public static final double[] DEFAULT_EYE_POSITION = {5.0,5.0,8.0};
+  public static final double[] DEFAULT_LOOKAT_POSITION = {10.0,0.0,0.0};
   public static final double[] DEFAULT_UP_DIRECTION = {0.0,1.0,0.0};
   
   private double theta, phi, radius;

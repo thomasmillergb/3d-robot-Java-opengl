@@ -1,6 +1,6 @@
 /*
-Author: Steve Maddock
-Last updated: 24 October 2013
+Author: Thomas Miller
+Last updated: 7 December 2014
 */
 
 import java.io.File;
@@ -21,6 +21,11 @@ import myLights.*;
 
 import parts.robotParts.*;
 
+//import textures 
+import textures.*;
+import com.jogamp.opengl.util.texture.*;
+import com.jogamp.opengl.util.texture.awt.*;
+
 public class M1Scene {
   private int frame;
   private GLU glu = new GLU();
@@ -40,19 +45,38 @@ public class M1Scene {
   private Room room;
   public boolean robot2Enabled = true, paused = false, wireFrame = true;
   public MyLights lights;
+  private GL2 gl;
+  
+  private Texture floorTex, roofTex, wallTex, robotTex1;
 
-  public M1Scene(GL2 gl, Camera camera) {
-	float frame = 0.0f;
-
+  public M1Scene(GL2 gls, Camera camera) {
+	int frame = 0;
+	gl = gls;
 	lights = new MyLights();
 	lights.drawLights(gl);
     this.camera = camera;
-	room = new Room();
-	room.createRenderObjects(gl);
 
-   
+    loadTextures(gl);
+	room = new Room();
+	room.createRenderObjects(gl, wallTex,floorTex, roofTex);
+
+  }
+  private void loadTextures(GL2 gl){
+		Textures load = new Textures();
+		wallTex  = load.loadTexture(gl, "textures/images/brick_texture.jpg");
+		floorTex = load.loadTexture(gl, "textures/images/floor.jpg");
+		roofTex  = load.loadTexture(gl, "textures/images/roof.jpg");
+		robotTex1 = load.loadTexture(gl, "textures/images/robot_metal1.jpg");
+	
+  
   }
 
+  public void increaseLight(){
+		lights.increaseLight();
+  }
+  public void decreaseLight(){
+		lights.decreaseLight();
+  }
   
   // called from SG1.reshape() if user resizes the window
   public void setCanvasSize(int w, int h) {
@@ -77,6 +101,8 @@ public class M1Scene {
     rotate=0.0;
 	frame =0;
     setObjectsDisplay(true);
+	lights.drawLights(gl);
+	
   }
 
   public void incRotate() {
@@ -90,7 +116,8 @@ public class M1Scene {
 
   
   public void render(GL2 gl) {
-    gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
+  
+   gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
     gl.glLoadIdentity();
     camera.view(glu);      // Orientate the camera
 	if(!paused)
@@ -99,23 +126,30 @@ public class M1Scene {
 	
 	
 	wireFrame(gl);
-	room.drawRoom(gl);
+
+	
 	drawRobots(gl);
+
+
+	room.drawRoom(gl);
 	boolean disco = true;
 	lights.doRoomLights(gl,frame,disco);
 	
-	
   }
   private void drawRobots(GL2 gl){
-	robot = new Robot(frame);
+	
+    robot = new Robot(frame, robotTex1);
+	
+    
 
 	robot.drawRobot(gl,lights,true);
-	
+	 
 	
 	if(robot2Enabled)
 	{
-		robot2 = new Robot(frame+360-50);
+		robot2 = new Robot(frame+360-50, roofTex);
 		robot2.drawRobot(gl,lights,false);
+	
 	}
 	else
 	{

@@ -20,11 +20,9 @@ public class Room{
 
  }
 
-	public void createRenderObjects(GL2 gl) {
-		Textures load = new Textures();
-		Texture wallTex= load.loadTexture(gl, "textures/brick_texture.jpg");
-		Texture floorTex = load.loadTexture(gl, "textures/floor.jpg");
-		Texture roofTex = load.loadTexture(gl, "textures/roof.jpg");
+	public void createRenderObjects(GL2 gl, Texture wallTex,Texture floorTex,Texture roofTex) {
+
+
 		Wall wall = new Wall(20,20,wallTex);
 		Wall floorr = new Wall(20,20,floorTex);
 		Wall roofed = new Wall(20,20,roofTex);
@@ -37,7 +35,7 @@ public class Room{
 	drawFloor(gl);
 	drawWall(gl);
 	drawRoof(gl);
-
+	drawObjects(gl);
 	}
 
 	private void drawWall(GL2 gl){
@@ -84,6 +82,30 @@ public class Room{
 			gl.glPopMatrix();
 		gl.glPopMatrix();
 		
+	}
+	private void drawObjects(GL2 gl){
+		
+		gl.glPushMatrix();
+			gl.glTranslated(8,0,0);
+			//gl.glColor3d(0.3f, 0.5f, 1f);
+			glut.glutSolidTorus(1.0f,4.0f,16,32);
+			
+		gl.glPopMatrix();
+		gl.glPushMatrix();
+			gl.glTranslated(0,-3,-8);
+			gl.glRotated(90,0,1,0);
+			glut.glutSolidTorus(1.0f,5.0f,16,32);
+		
+		gl.glPopMatrix();
+		gl.glPushMatrix();
+			gl.glRotated(45,0,1,0);
+			gl.glTranslated(0,3,8.5f);
+			gl.glRotated(90,0,1,0);
+			glut.glutSolidTorus(1.0f,5.0f,16,32);
+		
+		gl.glPopMatrix();
+	
+	
 	}
 
 

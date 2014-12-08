@@ -25,7 +25,7 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
   private int width, height;
 
   private Checkbox robotLights, globalLights, robot2Enbalbed, spotLights, wireFrame;
-  private Button startAnim, pauseAnim, resetScene;
+  private Button startAnim, pauseAnim, resetScene,increaseLight,decreaseLight;
   private boolean continuousAnimation = CONTINUOUS_ANIMATION;
 
   private Camera camera;
@@ -70,7 +70,7 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
 		wireFrame = addCheckbox(p1, "WireFrame/Fill", this);
         
       p.add(p1);
-      p1 = new Panel(new GridLayout(3,1));
+      p1 = new Panel(new GridLayout(5,1));
         startAnim = new Button("Start animation");
         startAnim.setActionCommand("StartAnim");
         startAnim.addActionListener(this);
@@ -83,6 +83,17 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
         resetScene.setActionCommand("ResetScene");
         resetScene.addActionListener(this);
         p1.add(resetScene);
+		
+		increaseLight = new Button("Increase the Light!");
+        increaseLight.setActionCommand("IncreaseLight");
+        increaseLight.addActionListener(this);
+        p1.add(increaseLight);
+		
+		decreaseLight = new Button("Dencrease the Light");
+        decreaseLight.setActionCommand("DecreaseLight");
+        decreaseLight.addActionListener(this);
+        p1.add(decreaseLight);
+		
       p.add(p1);
     add(p, "East");
 
@@ -123,6 +134,14 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
     }
     else if (e.getActionCommand().equalsIgnoreCase("resetscene")) {
       reset();
+	  
+    }
+    else if (e.getActionCommand().equalsIgnoreCase("increaselight")) {
+      scene.lights.increaseLight();
+	  System.out.println("incrasing");
+    }
+    else if (e.getActionCommand().equalsIgnoreCase("decreaselight")) {
+      scene.lights.decreaseLight();
     }
   }
 
@@ -208,11 +227,11 @@ public class M1 extends Frame implements GLEventListener, ActionListener,
 				                            // When turned on, it does slow rendering 
 				                            // See en.wikipedia.org/wiki/Normal_%28geometry%29#Transforming_normals
 				                            // for details of transforming normals.					
-    double radius = 10.0;           // radius of 'camera sphere', i.e. distance from 
+    double radius = 12.0;           // radius of 'camera sphere', i.e. distance from 
 	                                  // world origin
-    double theta = Math.toRadians(-45); // theta rotates anticlockwise around y axis
+    double theta = Math.toRadians(180); // theta rotates anticlockwise around y axis
                                     // here, 45 clockwise from x towards z axis
-    double phi = Math.toRadians(30);// phi is inclination from ground plane
+    double phi = Math.toRadians(10);// phi is inclination from ground plane
                                     // here, 30 degrees up from ground plane
     camera = new Camera(theta, phi, radius);
     scene = new M1Scene(gl, camera);
