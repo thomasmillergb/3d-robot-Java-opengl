@@ -154,7 +154,9 @@ public class M1Scene {
 	else
 	{
 		lights.doEyeLight2(gl);
+	
 		lights.doEyeLight3(gl);
+		
 	}
 	
   }

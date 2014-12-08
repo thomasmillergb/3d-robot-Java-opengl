@@ -57,7 +57,7 @@ public class Head{
 			rObs.drawEye(gl);
 			
 			gl.glPushMatrix();
-			if(!robot0)
+			if(robot0)
 		
 			
 				lights.doEyeLight(gl);
